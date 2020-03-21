@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<title>CSS Prefix-er for Tailwind UI Components</title>
+	<link rel="stylesheet" href="https://unpkg.com/tailwindcss@1.2.0/dist/tailwind.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
+
+	<body class="p-8" >	
+		<h1 class="text-2xl text-gray-900 leading-8">CSS Prefix-<em>er</em> for Tailwind UI Components</h1>
+
+		<p class="mt-2 text-gray-600">Add your CSS prefix, paste the Tailwind UI component HTML, then copy the prefixed version to use in your project.</p>
+
+		<div class="my-8" x-data="component()">
+
+			<div class="mt-4">
+				<div class="font-bold text-gray-800">
+				  CSS Prefix
+				</div>
+				<input type="text" @keyup="process()" x-model="prefix" class="mt-2 leading-5 px-3 py-2 w-full border border-solid border-gray-400 rounded" />
+			</div>
+
+		  <div class="mt-4">
+		    <div class="font-bold text-gray-800">
+		      Component HTML
+		    </div>
+		    <textarea x-model="input" @keyup="process()" class="mt-2 px-3 py-2 w-full border border-solid border-gray-400 rounded" rows="4"></textarea>
+		  </div>
+
+		  <div class="mt-4">
+		    <div class="font-bold text-gray-800">
+		      Prefixed Component HTML
+		    </div>
+		    <textarea x-ref="output" x-model="output" class="mt-2 px-3 py-2 w-full border border-solid border-gray-400 rounded" rows="4"></textarea>
+		  </div>
+
+		  <button @click="$refs.output.select(); document.execCommand('copy');" type="button" class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
+		    Copy to Clipboard
+		  </button>
+
+		</div>
+	</body>
+
+	<script>
+	function component() {
+	  return {
+	    input: '',
+	    output: '',
+	    prefix: '',
+	    process() { 
+	      if ( !this.prefix || !this.input ) {
+	        this.output = ''
+	        return
+	      }
+
+	      let div = document.createElement('div')
+	      div.innerHTML = this.input
+	      let els = div.querySelectorAll('*')
+	      for (let index1 = 0; index1 < els.length; index1++) {
+	          let node = els[index1]
+	          let newClasses = []
+	          for (let index = 0; index < node.classList.length; index++) {
+	              newClasses.push(this.prefixClass(node.classList[index]))
+	          }
+	          node.className = newClasses.join(' ')
+	      }
+	      this.output = div.innerHTML
+	    },
+	    prefixClass(className) {
+	      	let match = className.match(/([a-z].*):(.*)/)
+	      	if ( match ) {
+	      		return`${match[1]}:${this.prefix}-${match[2]}`;
+	      	}
+	    	return`${this.prefix}-${className}`
+	    }
+	  }
+	}
+	</script>	
+</html>
