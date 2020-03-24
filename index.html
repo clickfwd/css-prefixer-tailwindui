@@ -1,100 +1,138 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <title>CSS Prefix-er for Tailwind UI Components</title>
+        <meta name="description" content="Easily add a Tailwind CSS prefix and modify the primary color in Tailwind UI components">
+        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tailwindcss/ui@latest/dist/tailwind-ui.min.css">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>CSS Prefix-er for Tailwind UI Components</title>
-    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@1.2.0/dist/tailwind.min.css">
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
-
-<body class="p-8">
-    <h1 class="text-2xl text-gray-900 leading-8">CSS Prefix-<em>er</em> for Tailwind UI Components</h1>
-    <p class="mt-2 text-gray-600">Add your CSS prefix, select a primary color, paste the Tailwind UI component HTML, then copy the updated HTML to use in your project.</p>
-    <div class="my-8" x-data="component()">
-        <div class="mt-4">
-            <div class="font-bold text-gray-800">
-                CSS Prefix
-            </div>
-            <input type="text" @keyup="process" x-model="prefix" class="mt-2 leading-5 px-3 py-2 w-full border border-solid border-gray-400 rounded" />
-        </div>
-        <div class="mt-4">
-            <div class="font-bold text-gray-800">
-                Primary Color
-            </div>
-            <div class="mt-2 relative">
-                <select @change="$nextTick(() => process())" x-model="primary" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-					<option value="blue">Blue</option>
-					<option value="gray">Gray</option>
-					<option value="green">Green</option>
-					<option value="indigo">Indigo</option>
-					<option value="orange">Orange</option>
-					<option value="pink">Pink</option>
-					<option value="purple">Purple</option>
-					<option value="red">Red</option>
-					<option value="teal">Teal</option>
-					<option value="yellow">Yellow</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+    <body class="bg-cool-gray-100">
+        <div class="p-8">
+            <h1 class="text-3xl text-gray-700 leading-8">CSS Prefix-<em>er</em> for <a class="underline font-medium text-gray-900" href="https://tailwindui.com">Tailwind UI</a> Components</h1>
+            <p class="mt-3 text-gray-600">Add your CSS prefix, select a primary color, paste the Tailwind UI component HTML, then copy the updated HTML to use in your project.</p>
+            <div class="my-8" x-data="component()">
+                <div class="mt-4">
+                    <label for="prefix" class="block text-sm font-bold leading-8 text-gray-700">CSS Prefix</label>
+                    <div class="mt-1 relative rounded-md shadow-sm">
+                        <input id="prefix" type="text" @keyup="process" x-model="prefix" class="form-input block w-full sm:text-sm sm:leading-5" placeholder="" />
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <label for="primary" class="block text-sm font-bold leading-8 text-gray-700">Primary Color</label>
+                    <select 
+                        id="primary" 
+                        @change="$nextTick(() => process())" 
+                        x-model="primary" 
+                        class="mt-1 block form-select w-full py-2 px-3 py-0 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                    >
+                        <option value="blue">Blue</option>
+                        <option value="gray">Gray</option>
+                        <option value="green">Green</option>
+                        <option value="indigo">Indigo</option>
+                        <option value="orange">Orange</option>
+                        <option value="pink">Pink</option>
+                        <option value="purple">Purple</option>
+                        <option value="red">Red</option>
+                        <option value="teal">Teal</option>
+                        <option value="yellow">Yellow</option>
+                    </select>
+                </div>
+                <div class="mt-4">
+                    <div class="flex justify-between">
+                        <label for="input" class="block text-sm leading-8 font-bold text-gray-700">
+                            Component HTML
+                        </label>
+                        <button 
+                            type="button" 
+                            @click="input = ''; process();" 
+                            class="ml-3 text-gray-400 hover:text-gray-500"
+                            x-show="input !== ''"
+                        >
+                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </button>
+                    </div>            
+                    <div class="rounded-md shadow-sm">
+                        <textarea 
+                            id="input" rows="4" 
+                            x-model="input" 
+                            @keyup="process" 
+                            class="form-textarea mt-1 block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"></textarea>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex justify-between">
+                        <label for="output" class="block text-sm leading-8 font-bold text-gray-700">
+                            Prefixed Component HTML
+                        </label>
+                        <button 
+                            type="button" 
+                            @click="$refs.output.select(); document.execCommand('copy')" 
+                            x-show="output !== ''"
+                            class="ml-3 text-blue-600 hover:text-blue-500"
+                        >
+                            <svg fill="currentColor" viewBox="0 0 20 20" class="w-6 h-6">
+                                <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"></path>
+                                <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="rounded-md shadow-sm">
+                        <textarea 
+                            id="output" 
+                            rows="4" 
+                            x-ref="output" 
+                            x-model="output" 
+                            class="form-textarea mt-1 block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"></textarea>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="mt-4">
-            <div class="font-bold text-gray-800">
-                Component HTML
-            </div>
-            <textarea x-model="input" @keyup="process" class="mt-2 px-3 py-2 w-full border border-solid border-gray-400 rounded" rows="4"></textarea>
+        <div class="px-8 flex justify-center">
+            <p>
+                <a class="text-teal-600" href="https://twitter.com/getJReviews">Alejandro Schmeichler</a> &bull; Built with <a class="text-teal-600" href="https://tailwindui.com/">Tailwind UI</a> and <a class="text-teal-600" href="https://github.com/alpinejs/alpine">Alpine JS</a> &bull; <a class="text-teal-600" href="https://github.com/clickfwd/css-prefixer-tailwindui/">Open in Github</a>
+            </p>
         </div>
-        <div class="mt-4">
-            <div class="font-bold text-gray-800">
-                Prefixed Component HTML
-            </div>
-            <textarea x-ref="output" x-model="output" class="mt-2 px-3 py-2 w-full border border-solid border-gray-400 rounded" rows="4"></textarea>
-        </div>
-        <button @click="$refs.output.select(); document.execCommand('copy');" type="button" class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
-            Copy to Clipboard
-        </button>
-    </div>
-</body>
-<script>
-function component() {
-    return {
-        input: '',
-        output: '',
-        prefix: '',
-        primary: 'indigo',
-        process() {
-            if (!this.input) {
-                this.output = ''
-                return
-            }
+        <script>
+        function component() {
+            return {
+                input: '',
+                output: '',
+                prefix: '',
+                primary: 'indigo',
+                process() {
+                    if (!this.input) {
+                        this.output = ''
+                        return
+                    }
 
-            let div = document.createElement('div')
-            div.innerHTML = this.input
-            let els = div.querySelectorAll('*')
-            for (let index1 = 0; index1 < els.length; index1++) {
-                let node = els[index1]
-                let newClasses = []
-                for (let index = 0; index < node.classList.length; index++) {
-                    newClasses.push(this.prefixClass(node.classList[index]))
+                    let div = document.createElement('div')
+                    div.innerHTML = this.input
+                    let els = div.querySelectorAll('*')
+                    for (let index1 = 0; index1 < els.length; index1++) {
+                        let node = els[index1]
+                        let newClasses = []
+                        for (let index = 0; index < node.classList.length; index++) {
+                            newClasses.push(this.prefixClass(node.classList[index]))
+                        }
+                        if ( newClasses.length ) {                    
+                            node.className = newClasses.join(' ')
+                        }
+                    }
+                    this.output = div.innerHTML
+                },
+                prefixClass(className) {
+                    className = className.replace('indigo', this.primary)
+                    let match = className.match(/([a-z].*):(.*)/)
+                    const prefix = this.prefix ? this.prefix + '-' : ''
+                    if (match) {
+                        return `${match[1]}:${prefix}${match[2]}`
+                    }
+                    return `${prefix}${className}`
                 }
-                node.className = newClasses.join(' ')
             }
-            this.output = div.innerHTML
-        },
-        prefixClass(className) {
-        	className = className.replace('indigo',this.primary)
-            let match = className.match(/([a-z].*):(.*)/)
-            const prefix = this.prefix ? this.prefix+'-' : ''
-            if (match) {
-                return `${match[1]}:${prefix}${match[2]}`
-            }
-            return `${prefix}${className}`
         }
-    }
-}
-</script>
-
+        </script>
+    </body>
 </html>
