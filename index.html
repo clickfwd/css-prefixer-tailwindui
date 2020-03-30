@@ -116,8 +116,13 @@
                         for (let index = 0; index < node.classList.length; index++) {
                             newClasses.push(this.prefixClass(node.classList[index]))
                         }
-                        if ( newClasses.length ) {                    
-                            node.className = newClasses.join(' ')
+                        if ( newClasses.length ) {    
+                            if (node instanceof SVGElement) {
+                                node.setAttribute('class', newClasses.join(' '))
+                            } else {
+                                node.className = newClasses.join(' ')
+                            }                                        
+                            
                         }
                     }
                     this.output = div.innerHTML
