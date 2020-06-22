@@ -122,10 +122,20 @@
                             } else {
                                 node.className = newClasses.join(' ')
                             }                                        
-                            
                         }
+                        this.transitionClasses(node)
                     }
                     this.output = div.innerHTML
+                },
+                transitionClasses(node) {
+                    node.getAttributeNames().forEach( attribute => {
+                        if ( attribute.match('x-transition') ) {
+                            const classList = node.getAttribute(attribute).split(' ')
+                            let newClasses = []
+                            classList.forEach( className => newClasses.push(this.prefixClass(className)) )
+                            node.setAttribute(attribute, newClasses.join(' '))
+                        }
+                    })
                 },
                 prefixClass(className) {
                     className = className.replace('indigo', this.primary)
